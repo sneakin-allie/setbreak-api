@@ -5,7 +5,7 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 
-const app = express()
+const app = express();
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -15,8 +15,33 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
-app.get('/', (req, rest) => {
-    rest.send('Hello, world!')
+app.get('/api/*', (req, res) => {
+    res.json({ok: true});
+})
+
+app.get('/', (req, res) => {
+    console.log('The landing page was called');
+    res.send('This is the landing page');
+})
+
+app.get('/list', (req, res) => {
+    console.log('The concert collection page was called');
+    res.send('This is the concert collection page');
+})
+
+app.get('/new', (req, res) => {
+    console.log('The add new concert page was called');
+    res.send('This is the add new concert page');
+})
+
+app.get('/edit/:id', (req, res) => {
+    console.log('The edit concert page was called');
+    res.send('This is the edit concert page');
+})
+
+app.get('/stats', (req, res) => {
+    console.log('The stats page was called');
+    res.send('This is the statistics page');
 })
 
 app.use(function errorHandler(error, req, res, next) {
