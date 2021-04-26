@@ -11,6 +11,8 @@ const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
 
+const concerts = require ('./concerts-data.js');
+
 app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
@@ -25,8 +27,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/list', (req, res) => {
-    console.log('The concert collection page was called');
-    res.send('This is the concert collection page');
+    console.log('/list was called');
+    res.json(concerts);
 })
 
 app.get('/new', (req, res) => {
