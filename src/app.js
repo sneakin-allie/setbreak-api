@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
+const { v4: uuid } = require('uuid');
 
 const app = express();
 
@@ -22,9 +23,54 @@ app.get('/api/*', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    console.log('The landing page was called');
+    console.log('/ was called');
     res.send('This is the landing page');
 })
+
+const users = [];
+
+app.post('/', (req, res) => {
+    // get the data 
+    const { firstName, lastName, email, password, } = req.body;
+
+    // validation code below
+    if (!firstName) {
+        return res
+            .status(400)
+            .send("First name is required");
+    }
+
+    if (!lastName) {
+        return res
+            .status(400)
+            .send("Last name is required");
+    }
+
+    if (!email) {
+        return res
+            .status(400)
+            .send("Email is required");
+    }
+
+    if (!password) {
+        return res
+            .status(400)
+            .send("Password is required");
+    }
+
+    const id = uuid(); // generate a unique id
+    const newUser = {
+        firstName,
+        lastName,
+        email,
+        password
+    };
+
+    users.push(newUser);
+
+    // when all validation passes
+    res.send("All validation passed");
+});
 
 app.get('/list', (req, res) => {
     console.log('/list was called');
@@ -36,10 +82,25 @@ app.get('/new', (req, res) => {
     res.send('This is the add new concert page');
 })
 
+app.post('/new', (req, res) => {
+    // add a new concert
+})
+
 app.get('/edit/:id', (req, res) => {
-    console.log('The edit concert page was called');
+    console.log('/edit/:id was called');
     res.send('This is the edit concert page');
 })
+
+app.delete('/edit/:id', (req, res) => {
+    const { id } = req.params;
+    const index = concerts.findIndex(con => con.id === id);
+
+    concerts.splice(index, 1);
+
+    res
+        .status(204)
+        .end();
+});
 
 app.get('/stats', (req, res) => {
     console.log('The stats page was called');
