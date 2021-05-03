@@ -5,8 +5,54 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const { v4: uuid } = require('uuid');
+const knex = require('knex');
+const ConcertsService = require('./concerts-service')
+const usersRouter = require('./users-router')
+const concertsRouter = require('./concerts-router')
+
+const knexInstance = knex({
+    client: 'pg',
+    connection: 'process.env.DB_URL'
+})
 
 const app = express();
+
+app.use("/api/users", usersRouter)
+app.use("/api/concerts", concertsRouter)
+
+
+/*
+ConcertsService.getAllConcerts(knexInstance)
+    .then(concerts => console.log(concerts))
+    .then(() =>
+        ConcertsService.insertConcert(knexInstance, {
+            id: "new id", // not sure what all these values should be
+            date: "new date",
+            artist: "new artist",
+            venue: "new venue",
+            songs: "new songs",
+            notes: "new notes"
+        })
+    )
+    .then(newConcert => {
+        console.log(newConcert)
+        return ConcertsService.updateConcert(
+            knexInstance,
+            newConcert.id,
+            {
+                id: "updated id", 
+                date: "updated date",
+                artist: "updated artist",
+                venue: "updated venue",
+                songs: "updated songs",
+                notes: "updated notes"
+            }
+        ).then(() => ConcertsService.getById(knexInstance, newConcert.id))
+    })
+    .then(concert => {
+        console.log(concert)
+        return ConcertsService.deleteConcert(knexInstance, concert.id)
+    })
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -72,13 +118,17 @@ app.post('/', (req, res) => {
     res.send("All validation passed");
 });
 
-app.get('/list', (req, res) => {
-    console.log('/list was called');
-    res.json(concerts);
+app.get('/list', (req, res, next) => {
+    const knexInstance = req.app.get("db")
+    ConcertsService.getAllConcerts(knexInstance)
+        .then(concerts => {
+            res.json(concerts)
+        })
+        .catch(next)
 })
 
 app.get('/new', (req, res) => {
-    console.log('The add new concert page was called');
+    console.log('/new was called');
     res.send('This is the add new concert page');
 })
 
@@ -86,7 +136,16 @@ app.post('/new', (req, res) => {
     // add a new concert
 })
 
-app.get('/edit/:id', (req, res) => {
+app.get('/edit/:id', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    ConcertsService.getById(knexInstance, req.params.concert.id)
+        .then(concert => {
+            res.json(concert)
+        })
+        .catch(next)
+})
+
+app.patch('/edit/:id', (req, res) => {
     console.log('/edit/:id was called');
     res.send('This is the edit concert page');
 })
@@ -103,7 +162,7 @@ app.delete('/edit/:id', (req, res) => {
 });
 
 app.get('/stats', (req, res) => {
-    console.log('The stats page was called');
+    console.log('/stats was called');
     res.send('This is the statistics page');
 })
 
@@ -117,5 +176,7 @@ app.use(function errorHandler(error, req, res, next) {
     }
     res.status(500).json(response)
 })
+
+*/
 
 module.exports = app
