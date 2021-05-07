@@ -6,30 +6,37 @@ const ConcertsService = {
             .select("*")
             .from("concerts");
     },
+
+    insertConcert(knex, newConcert) {
+        console.log(newConcert)
+        return knex
+            .insert(newConcert)
+            .into("concerts")
+            .returning("*")
+            .then(rows => {
+                return rows[0]
+            })
+    },
+
     getById(knex, id) {
         return knex
             .from("concerts")
             .select("*")
             .where("id", id)
-            .first();
+            .first()
     },
+
     deleteConcert(knex, id) {
         return knex("concerts")
             .where({ id })
-            .delete();
+            .delete()
     },
+
     updateConcert(knex, id, newConcertFields) {
         return knex("concerts")
             .where({ id })
-            .update(newConcertFields);
-    },
-    insertConcert(knex, newConcert) {
-        return knex
-            .insert(newConcert)
-            .into("concerts")
-            .returning("*")
-            .then(rows => rows[0]);
+            .update(newConcertFields)
     }
 };
 
-module.exports = ConcertsService;
+module.exports = ConcertsService
