@@ -44,6 +44,8 @@ app.get('/edit/:id', (req, res, next) => {
         .catch(next)
 })
 
+*/
+
 app.use(function errorHandler(error, req, res, next) {
     let response
     if (NODE_ENV === 'production') {
@@ -54,7 +56,5 @@ app.use(function errorHandler(error, req, res, next) {
     }
     res.status(500).json(response)
 })
-
-*/
 
 module.exports = app

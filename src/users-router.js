@@ -36,22 +36,36 @@ usersRouter
           }
       }
 
-      newUser.firstname = firstName;
-      newUser.lastname = lastName;
-      newUser.email = email;
-      newUser.password = password;
 
-      UsersService.insertUser(
+      // email validation
+      UsersService.getByEmail(
           req.app.get("db"),
-          newUser
+          email
       )
-        .then(user => {
-            res
-                .status(201)
-                .location(path.posix.join(req.originalUrl, `/${user.email}`)) // do I need to create a user id to use for this path?
-                .json(serializeUser(user))
-        })
-        .catch(next)
+        .then(existingUser => {
+            if (existingUser) {
+                return res.status(400).json({
+                    error: { message: `Email already exists. Try another email`}
+                })
+            } else {
+                newUser.firstname = firstName;
+                newUser.lastname = lastName;
+                newUser.email = email;
+                newUser.password = password;
+
+                UsersService.insertUser(
+                    req.app.get("db"),
+                    newUser
+                )
+                    .then(user => {
+                        res
+                            .status(201)
+                            .location(path.posix.join(req.originalUrl, `/${user.email}`)) // do I need to create a user id to use for this path?
+                            .json(serializeUser(user))
+                    })
+                    .catch(next)
+                        }
+                    })
   })
 
 usersRouter

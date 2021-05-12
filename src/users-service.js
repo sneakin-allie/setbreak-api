@@ -6,7 +6,6 @@ const UsersService = {
     },
 
     insertUser(knex, newUser) {
-        console.log(newUser);
         return knex
             .insert(newUser)
             .into("users")
@@ -16,6 +15,7 @@ const UsersService = {
             })
     },
 
+    // validate email here too
     getByEmail(knex, email) {
         return knex
             .from("users")

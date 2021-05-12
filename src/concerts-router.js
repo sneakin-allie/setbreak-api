@@ -6,6 +6,7 @@ const ConcertsService = require('./concerts-service')
 const concertsRouter = express.Router()
 const jsonParser = express.json()
 
+// might remove this
 const serializeConcert = concert => ({
     id: concert.id,
     date: concert.date,
@@ -27,8 +28,8 @@ concertsRouter
     })
 
     .post(jsonParser, (req, res, next) => {
-        const { id, date, artist, venue, songs, notes } = req.body
-        const newConcert = { id, date, artist, venue, songs, notes }
+        const { email, date, artist, venue, songs, notes } = req.body
+        const newConcert = { email, date, artist, venue, songs, notes }
 
         ConcertsService.insertConcert(
             req.app.get("db"),
