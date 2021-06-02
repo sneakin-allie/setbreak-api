@@ -1,7 +1,8 @@
 const knex = require('knex');
-const app = require('../src/app');
+const app = require('./../src/app');
 const supertest = require('supertest');
 const { expect } = require('chai');
+const { TEST_DATABASE_URL } = require('./../src/config');
 
 describe('Setbreak users API:', function () {
   let db;
@@ -29,7 +30,7 @@ describe('Setbreak users API:', function () {
   before('make knex instance', () => {  
     db = knex({
       client: 'pg',
-      connection: "postgresql://allison_schulman@localhost/concerts_test",
+      connection: TEST_DATABASE_URL,
     })
   
     app.set('db', db)
@@ -168,7 +169,7 @@ describe('Setbreak concerts API:', function () {
   before('make knex instance', () => {  
     db = knex({
       client: 'pg',
-      connection: "postgresql://allison_schulman@localhost/concerts",
+      connection: TEST_DATABASE_URL,
     })
   
     app.set('db', db)
