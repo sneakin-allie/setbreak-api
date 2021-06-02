@@ -6,7 +6,6 @@ const ConcertsService = require('./concerts-service')
 const concertsRouter = express.Router()
 const jsonParser = express.json()
 
-// might remove this
 const serializeConcert = concert => ({
     id: concert.id,
     date: concert.date,
@@ -21,7 +20,7 @@ concertsRouter
     .get((req, res, next) => {
         const knexInstance = req.app.get("db")
         ConcertsService.getAllConcerts(knexInstance)
-            .then(concerts => {
+            .then(concerts => { 
                 res.json(concerts.map(serializeConcert))
             })
             .catch(next)
@@ -45,11 +44,11 @@ concertsRouter
     })
 
 concertsRouter
-    .route('/:concert.id')
+    .route('/:concert_id')
     .all((req, res, next) => {
         ConcertsService.getById(
             req.app.get("db"),
-            req.params.concert.id
+            req.params.concert_id
         )
             .then(concert => {
                 if (!concert) {
@@ -68,7 +67,7 @@ concertsRouter
     .delete((req, res, next) => {
         ConcertsService.deleteConcert(
             req.app.get("db"),
-            req.params.concert.id
+            req.params.concert_id
         )
             .then(numRowsAffected => {
                 res.status(204).end()
@@ -76,65 +75,34 @@ concertsRouter
             .catch(next)
     })
     .patch(jsonParser, (req, res, next) => {
-        const { id, date, artist, venue, songs, notes } = req.body
-        const concertToUpdate = { id, date, artist, venue, songs, notes }
+        const { date, artist, venue, songs, notes } = req.body
+
+        const concertToUpdate = {};
+        if (date) {
+            concertToUpdate.date = date
+        }
+        if (artist) {
+            concertToUpdate.artist = artist
+        }
+        if (venue) {
+            concertToUpdate.venue = venue
+        }
+        if (songs) {
+            concertToUpdate.songs = songs
+        }
+        if (notes) {
+            concertToUpdate.notes = notes
+        }
 
         ConcertsService.updateConcert(
             req.app.get("db"),
-            req.params.concert.id,
+            req.params.concert_id,
             concertToUpdate
         )
-            .then(numRowsAffected => {
-                res.status(204).end()
+            .then(updatedConcert => {
+                res.status(200).json(updatedConcert)
             })
             .catch(next)
     })
-
-    /*
-
-    .delete('/edit/:id', (req, res) => {
-        const { id } = req.params;
-        const index = concerts.findIndex(con => con.id === id);
-    
-        concerts.splice(index, 1);
-    
-        res
-            .status(204)
-            .end();
-    });
-
-    ConcertsService.getAllConcerts(knexInstance)
-    .then(concerts => console.log(concerts))
-    .then(() =>
-        ConcertsService.insertConcert(knexInstance, {
-            id: "new id", // not sure what all these values should be
-            date: "new date",
-            artist: "new artist",
-            venue: "new venue",
-            songs: "new songs",
-            notes: "new notes"
-        })
-    )
-    .then(newConcert => {
-        console.log(newConcert)
-        return ConcertsService.updateConcert(
-            knexInstance,
-            newConcert.id,
-            {
-                id: "updated id", 
-                date: "updated date",
-                artist: "updated artist",
-                venue: "updated venue",
-                songs: "updated songs",
-                notes: "updated notes"
-            }
-        ).then(() => ConcertsService.getById(knexInstance, newConcert.id))
-    })
-    .then(concert => {
-        console.log(concert)
-        return ConcertsService.deleteConcert(knexInstance, concert.id)
-    })
-
-    */
 
 module.exports = concertsRouter

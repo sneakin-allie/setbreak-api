@@ -6,7 +6,6 @@ const UsersService = require('./users-service');
 const usersRouter = express.Router();
 const jsonParser = express.json();
 
-// don't necessarily need to serialize
 const serializeUser = user => ({
     firstName: xss(user.firstname),
     lastName: xss(user.lastname),
@@ -19,7 +18,9 @@ usersRouter
       const knexInstance = req.app.get("db")
       UsersService.getAllUsers(knexInstance)
         .then(users => {
-            res.json(users.map(serializeUser))
+            res
+                .status(200)
+                .json(users.map(serializeUser))
         })
         .catch(next)
   })
@@ -36,8 +37,6 @@ usersRouter
           }
       }
 
-
-      // email validation
       UsersService.getByEmail(
           req.app.get("db"),
           email
@@ -45,7 +44,7 @@ usersRouter
         .then(existingUser => {
             if (existingUser) {
                 return res.status(400).json({
-                    error: { message: `Email already exists. Try another email`}
+                    error: { message: `Email already exists`}
                 })
             } else {
                 newUser.firstname = firstName;
@@ -60,12 +59,12 @@ usersRouter
                     .then(user => {
                         res
                             .status(201)
-                            .location(path.posix.join(req.originalUrl, `/${user.email}`)) // do I need to create a user id to use for this path?
+                            .location(path.posix.join(req.originalUrl, `/${user.email}`))
                             .json(serializeUser(user))
                     })
                     .catch(next)
-                        }
-                    })
+                    }
+        })
   })
 
 usersRouter
@@ -100,81 +99,28 @@ usersRouter
       .catch(next)
   })
   .patch(jsonParser, (req, res, next) => {
-      const { firstName, lastName, email, password } = req.body;
-      const userToUpdate = { 
-          firstname: firstName, 
-          lastname: lastName,
-          password: password 
-        }
+      const { firstName, lastName, password } = req.body
 
-      const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
-      if (numberOfValues === 0)
-        return res.status(400).json({
-            error: {
-                message: `Request body must contain either "first name", "last name", "email" or "password"`
-            }
-        })
+      const userToUpdate = {};
+      if (firstName) {
+          userToUpdate.firstname = firstName
+      }
+      if (lastName) {
+        userToUpdate.lastname = lastName
+      }
+      if (password) {
+        userToUpdate.password = password
+      }
 
         UsersService.updateUser(
             req.app.get("db"),
             req.params.email,
             userToUpdate
         )
-            .then(numRowsAffected => {
-                res.status(204).end()
+            .then(updatedUser =>{
+                res.status(200).json(updatedUser)
             })
             .catch(next)
   })
-
-/*
-
-Do I need this? 
-
-const users = [];
-
-app.post('/', (req, res) => {
-    // get the data 
-    const { firstName, lastName, email, password, } = req.body;
-
-    // validation code below
-    if (!firstName) {
-        newUser.firstname = firstName;
-        newUser.lastname = lastName;
-        newUser.email = email;
-        newUser.password = password;
-    }
-
-    if (!lastName) {
-        return res
-            .status(400)
-            .send("Last name is required");
-    }
-
-    if (!email) {
-        return res
-            .status(400)
-            .send("Email is required");
-    }
-
-    if (!password) {
-        return res
-            .status(400)
-            .send("Password is required");
-    }
-
-    const newUser = {
-        firstName,
-        lastName,
-        email,
-        password
-    };
-
-    users.push(newUser);
-
-    // when all validation passes
-    res.send("All validation passed");
-});
-
-*/ 
 
 module.exports = usersRouter

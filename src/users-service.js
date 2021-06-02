@@ -15,7 +15,6 @@ const UsersService = {
             })
     },
 
-    // validate email here too
     getByEmail(knex, email) {
         return knex
             .from("users")
@@ -31,6 +30,7 @@ const UsersService = {
     },
 
     updateUser(knex, email, newUserFields) {
+        console.log("Email:", email, "newUserFields:", newUserFields)
         return knex("users")
             .where({ email })
             .update(newUserFields)
