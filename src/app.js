@@ -15,12 +15,12 @@ const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
 
-app.use("/api/users", usersRouter)
-app.use("/api/concerts", concertsRouter)
-
 app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
+
+app.use("/api/users", usersRouter)
+app.use("/api/concerts", concertsRouter)
 
 app.use(function errorHandler(error, req, res, next) {
     let response

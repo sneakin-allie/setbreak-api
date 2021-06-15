@@ -7,8 +7,32 @@ const ConcertsService = {
             .from("concerts");
     },
 
+    getByEmail(knex, email) {
+        return knex
+            .from("concerts")
+            .select("*")
+            .where("email", email)
+    },
+
+    /*
+
+    // attempting to post by email to see if it fixes server error
+    didn't work - email needs to be sent in the body
+
+    insertConcert(knex, email, newConcert) {
+        return knex
+            .insert(newConcert)
+            .into("concerts")
+            .where("email", email)
+            .returning("*")
+            .then(rows => {
+                return rows[0]
+            })
+    },
+
+    */
+   
     insertConcert(knex, newConcert) {
-        console.log(newConcert)
         return knex
             .insert(newConcert)
             .into("concerts")

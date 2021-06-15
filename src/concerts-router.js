@@ -16,16 +16,7 @@ const serializeConcert = concert => ({
 })
 
 concertsRouter
-    .route('/list')
-    .get((req, res, next) => {
-        const knexInstance = req.app.get("db")
-        ConcertsService.getAllConcerts(knexInstance)
-            .then(concerts => { 
-                res.json(concerts.map(serializeConcert))
-            })
-            .catch(next)
-    })
-
+    .route('/')
     .post(jsonParser, (req, res, next) => {
         const { email, date, artist, venue, songs, notes } = req.body
         const newConcert = { email, date, artist, venue, songs, notes }
@@ -42,6 +33,42 @@ concertsRouter
             })
             .catch(next)
     })
+
+concertsRouter
+    .route('/:email')
+    .get((req, res, next) => {
+        ConcertsService.getByEmail(
+            req.app.get("db"),
+            req.params.email
+        )
+            .then(concerts => {
+                res.json(concerts.map(serializeConcert))
+            })
+            .catch(next)
+    })
+
+    /*
+    trying a post by email to see if it fixes server error
+    didn't work - needs to be sent in the body
+
+    .post(jsonParser, (req, res, next) => {
+        const { email, date, artist, venue, songs, notes } = req.body
+        const newConcert = { email, date, artist, venue, songs, notes }
+
+        ConcertsService.insertConcert(
+            req.app.get("db"),
+            email,
+            newConcert
+        )
+            .then(concert => {
+              res
+                .status(201)
+                .location(path.posix.join(req.originalUrl, `/${concert.id}`))
+                .json(serializeConcert(concert))
+            })
+            .catch(next)
+    })
+    */
 
 concertsRouter
     .route('/:concert_id')
