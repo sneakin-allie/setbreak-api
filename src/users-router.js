@@ -87,7 +87,6 @@ usersRouter
             req.body.password 
         )
             .then(user => {
-                console.log("user:", user)
                 if (!user) {
                     return res.status(404).json({
                         error: { message: `User doesn't exist` }
