@@ -14,7 +14,7 @@ const UsersService = {
             .first()
     },
 
-    // ATTEMPT TO FIX PASSWORD ISSUE - not working yet
+    // UPDATED THAT FIXES PASSWORD ISSUE
     getByEmailAndPassword(knex, email, password) {
         return knex
             .from("users")

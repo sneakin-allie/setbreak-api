@@ -47,29 +47,6 @@ concertsRouter
             .catch(next)
     })
 
-    /*
-    trying a post by email to see if it fixes server error
-    didn't work - needs to be sent in the body
-
-    .post(jsonParser, (req, res, next) => {
-        const { email, date, artist, venue, songs, notes } = req.body
-        const newConcert = { email, date, artist, venue, songs, notes }
-
-        ConcertsService.insertConcert(
-            req.app.get("db"),
-            email,
-            newConcert
-        )
-            .then(concert => {
-              res
-                .status(201)
-                .location(path.posix.join(req.originalUrl, `/${concert.id}`))
-                .json(serializeConcert(concert))
-            })
-            .catch(next)
-    })
-    */
-
 concertsRouter
     .route('/:concert_id')
     .all((req, res, next) => {
