@@ -5,6 +5,24 @@ const UsersService = {
         return knex.select("*").from("users")
     },
 
+    // ORIGINAL THAT WORKS FOR EMAIL BUT NOT PASSWORD
+    getByEmail(knex, email) {
+        return knex
+            .from("users")
+            .select("*")
+            .where("email", email)
+            .first()
+    },
+
+    // ATTEMPT TO FIX PASSWORD ISSUE - not working yet
+    getByEmailAndPassword(knex, email, password) {
+        return knex
+            .from("users")
+            .select("*")
+            .where({ "email": email, "password": password })
+            .first()
+    },
+
     insertUser(knex, newUser) {
         return knex
             .insert(newUser)
@@ -13,14 +31,6 @@ const UsersService = {
             .then(rows => {
                 return rows[0]
             })
-    },
-
-    getByEmail(knex, email) {
-        return knex
-            .from("users")
-            .select("*")
-            .where("email", email)
-            .first()
     },
     
     deleteUser(knex, email) {

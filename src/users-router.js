@@ -9,7 +9,8 @@ const jsonParser = express.json();
 const serializeUser = user => ({
     firstName: xss(user.firstname),
     lastName: xss(user.lastname),
-    email: xss(user.email)
+    email: xss(user.email),
+    password: xss(user.password)
 })
 
 usersRouter
@@ -69,24 +70,31 @@ usersRouter
 
 usersRouter
   .route('/:email')
-  .all((req, res, next) => {
-      UsersService.getByEmail(
-          req.app.get("db"),
-          req.params.email
-      )
+  .get((req, res, next) => {
+      res.json(serializeUser(res.user))
+  })
+
+  .post(jsonParser, (req, res, next) => {
+    console.log("req.params.email:", req.params.email)
+    console.log("password:", req.body.password)
+
+        UsersService.getByEmailAndPassword(
+            req.app.get("db"),
+            req.params.email,
+            req.body.password 
+        )
+
         .then(user => {
+            console.log("user:", user)
             if (!user) {
                 return res.status(404).json({
                     error: { message: `User doesn't exist` }
                 })
             }
             res.user = user
-            next()
+            return res.status(200).json(serializeUser(user))
         })
         .catch(next)
-  })
-  .get((req, res, next) => {
-      res.json(serializeUser(res.user))
   })
   .delete((req, res, next) => {
       UsersService.deleteUser(
@@ -99,7 +107,7 @@ usersRouter
       .catch(next)
   })
   .patch(jsonParser, (req, res, next) => {
-      const { firstName, lastName, password } = req.body
+      const { firstName, lastName, password } = req.body;
 
       const userToUpdate = {};
       if (firstName) {
