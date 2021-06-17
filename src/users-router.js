@@ -81,6 +81,10 @@ usersRouter
 
     // POST to log in an existing user
     .post(jsonParser, (req, res, next) => {
+        console.log("req.body.email:", req.body.email)
+        console.log("req.body.password:", req.body.password)
+        console.log("user:", user)
+
         UsersService.getByEmailAndPassword(
             req.app.get("db"),
             req.body.email,
