@@ -1,0 +1,41 @@
+{
+    "name": "setbreak-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "migrate": "postgrator --config postgrator-config.js",
+      "migrate:test": "env NODE_ENV=test npm run migrate",
+      "migrate:production": "heroku run npm run migrate",
+      "start": "node src/server.js",
+      "test": "mocha --require test/setup.js",
+      "dev": "nodemon src/server.js",
+      "predeploy": "npm audit",
+      "deploy": "git push heroku master",
+      "postdeploy": "npm run migrate:production"
+    },
+    "keywords": [],
+    "engines": {
+      "node": "14.15.1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "cors": "^2.8.5",
+      "dotenv": "^8.2.0",
+      "express": "^4.17.1",
+      "helmet": "^4.4.1",
+      "knex": "^0.95.4",
+      "morgan": "^1.10.0",
+      "pg": "^8.6.0",
+      "postgrator-cli": "^3.2.0",
+      "uuid": "^8.3.2",
+      "xss": "^1.0.9"
+    },
+    "devDependencies": {
+      "chai": "^4.2.0",
+      "mocha": "^8.4.0",
+      "nodemon": "^2.0.7",
+      "supertest": "^6.1.3"
+    }
+  }
