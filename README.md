@@ -1,6 +1,6 @@
 # Capstone: SETBREAK
 
-This application was made for my capstone project for Bloc/Thinkful Web Development course. It is a concert tracker to be used by attendees that allows for the tracking of concerts and details about the concert, such as artist, venue, date, highlights, and other notes. This application was built to meet the specifications laid out by the Bloc/Thinkful course. The project's client-side code can be viewed on its GitHub repository here: https://github.com/sneakin-allie/setbreak-client
+This application was made for part of my capstone project for the Bloc/Thinkful Web Development course. It is a concert tracker application to be used by concert attendees that allows for the tracking of concerts and details about the concert, including the artist, venue, date, highlights, and other notes. This application was built to meet the specifications laid out by the Bloc/Thinkful course. The project's client-side code can be viewed on its GitHub repository here: https://github.com/sneakin-allie/setbreak-client
 
 ## Live Application
 
