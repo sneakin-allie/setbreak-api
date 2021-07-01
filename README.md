@@ -26,7 +26,7 @@ The table below describes the paths and usage of the API:
 
 SETBREAK has four main page branches. The Home/Landing Page, Concert Collection Page, Add New Concert Page, and Edit Concert Page.
 
-The Home/Landing Page has concise instructions on how to use the application and what can be expected as well as Sign Up and Log In forms for new users and existing users respectively. 
+The Home/Landing Page has concise instructions on how to use the application as well as Sign Up and Log In forms for new users and existing users respectively. 
 
 The Concert Collection Page lists a user's concerts with details the user has saved. The top of the page has an "Add New Concert" button for easy access and each concert listed has an "Edit" button so that users can edit all fields as desired.
 
