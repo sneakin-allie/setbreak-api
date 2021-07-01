@@ -1,26 +1,41 @@
-# Express Boilerplate!
+# Capstone: SETBREAK
 
-This is a boilerplate project used for starting new projects!
+This application was made for my capstone project for Bloc/Thinkful Web Development course. It is a concert tracker to be used by attendees that allows for the tracking of concerts and details about the concert, such as artist, venue, date, highlights, and other notes. This application was built to meet the specifications laid out by the Bloc/Thinkful course. The project's client-side code can be viewed on its GitHub repository here: https://github.com/sneakin-allie/setbreak-client
 
-## Set up
+## Live Application
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+This application can be viewed here: https://setbreak-sneakin-allie.vercel.app/
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+The backend API is currently running here: https://vercel.com/sneakin-allie/setbreak/66RtADMKRviWkg74npPznViTsmSA
 
-## Scripts
+Both are hosted on Vercel with the SQL Database hosted on Heroku.
 
-Start the application `npm start`
+## API Paths
 
-Start nodemon for the application `npm run dev`
+The table below describes the paths and usage of the API:
 
-Run the tests `npm test`
+|   API Path          |   Function    |
+| -------------       | ------------- |
+| api/users/          | POST: Log in an existing user                                                           |
+| api/users/new       | POST: Sign up a new user                                                                |
+| api/concerts/       | POST: Create a new concert                                                              |
+| api/concerts/:email | GET: List concerts by user email                                                        |
+| api/concerts/:id    | GET: List a concert by id, PATCH: Edit a concert by id, DELETE: Delete a concert by id  |
 
-## Deploying
+## Application Usage
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's main branch.
+SETBREAK has four main page branches. The Home/Landing Page, Concert Collection Page, Add New Concert Page, and Edit Concert Page.
+
+The Home/Landing Page has concise instructions on how to use the application and what can be expected as well as Sign Up and Log In forms for new users and existing users respectively. 
+
+The Concert Collection Page lists a user's concerts with details the user has saved. The top of the page has an "Add New Concert" button for easy access and each concert listed has an "Edit" button so that users can edit all fields as desired.
+
+The Add New Concert Page displays a form where a user can enter information about a concert, including the artist, venue, date, highlights, and notes. Only the artist and venue are required at first so that a user can quickly save a concert and return to it later to add details about date, highlights, and notes.
+
+The Edit Concert Page displays a form where a user can update information about a concert that has been saved. The input fields auto-fill with the previously saved information so the user can make accurate edits where desired. At the bottom of the form, there is a "Delete" button that deletes the concert from the collection.
+
+## Technology Used
+
+The front-end of this project was built in React, using Router, class components, state, and props. An API was created that handled all promises necessary to interact with the back-end API database.
+
+The back-end of this project was built using Node.js, Express, SQL, Postgres, and Knex. RESTful APIs were used along with middleware including Morgan, Express.json, Helmet, and CORS. CORS was implemented to ensure connection between the front-end application and back-end API.
