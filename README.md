@@ -27,19 +27,19 @@ The table below describes the paths and usage of the API:
 
 The Home/Landing Page has brief instructions on what the application does and how to get started, as well as Sign Up and Log In forms for new users and existing users respectively. See below:
 
-![Screen Shot 2021-07-13 at 8 00 53 PM](https://user-images.githubusercontent.com/68669789/125540313-7f44c425-b402-453b-8b2e-9560eec979c2.png)
+![Screen Shot 2021-07-21 at 10 00 58 AM](https://user-images.githubusercontent.com/68669789/126501557-f73a164f-332b-4c53-9353-5735fe0cf7de.png)
 
 The Concert Collection Page lists a user's concerts with details the user has saved. The top of the page has an "Add New Concert" button for easy access and each concert listed has an "Edit" button so that users can edit all fields as desired. See below:
 
-![Screen Shot 2021-07-13 at 8 49 54 PM](https://user-images.githubusercontent.com/68669789/125543533-e874f7eb-ba28-45b9-97aa-13e8fe9b39f4.png)
+![Screen Shot 2021-07-21 at 10 02 42 AM](https://user-images.githubusercontent.com/68669789/126501813-19134616-c21f-4f34-8fc6-79daed47e7f6.png)
 
 The Add New Concert Page displays a form where a user can enter information about a concert, including the artist, venue, date, highlights, and notes. Only the artist and venue are required so that a user can quickly save a concert and return to it later to add details about date, highlights, and notes. See below:
 
-![Screen Shot 2021-07-13 at 8 46 32 PM](https://user-images.githubusercontent.com/68669789/125543310-7125608e-22da-4e2c-849f-432ebca78034.png)
+![Screen Shot 2021-07-21 at 10 03 47 AM](https://user-images.githubusercontent.com/68669789/126501995-45f09ff9-a82d-499e-9289-f85ad45bbe92.png)
 
 The Edit Concert Page displays a form where a user can update information about a concert that has been saved. The input fields auto-fill with the previously saved information so the user can make accurate edits where desired. At the bottom of the form, there is a "Delete" button that deletes the concert from the collection. See below:
 
-![Screen Shot 2021-07-13 at 8 50 40 PM](https://user-images.githubusercontent.com/68669789/125543577-83217f8d-94e1-4549-bf3b-01132e3d0446.png)
+![Screen Shot 2021-07-21 at 10 03 47 AM](https://user-images.githubusercontent.com/68669789/126502092-ebb6e891-92d9-402d-aa29-b046b0b9f30f.png)
 
 ## Technology Used
 
